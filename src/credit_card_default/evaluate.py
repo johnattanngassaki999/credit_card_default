@@ -27,7 +27,9 @@ def cross_validate_model (model, X, y, n_splits: int, random_state: int) -> dict
 
 def get_oof_proba(model, X, y, n_splits: int, random_state: int):
     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
-    return cross_val_predict(model, X, y, cv=cv, method="predict_proba")[:,1]
+    if hasattr(model, "predict_proba"):
+        return cross_val_predict(model, X, y, cv=cv, method="predict_proba")[:,1]
+    return cross_val_predict(model, X, y, cv=cv, method="decision_function")
 
 def find_best_threshold(y_true, y_proba, metric="f1", min_recall=None):
     precision, recall, thresholds = precision_recall_curve(y_true, y_proba)
@@ -42,7 +44,7 @@ def find_best_threshold(y_true, y_proba, metric="f1", min_recall=None):
         raise ValueError(f"Unknown metric: {metric}")
     return float(thresholds[np.argmax(scores)])
 
-def plot_pr_curve(y_true, y_proba, label=None, threshold=None, ax=None):
+def plot_pr_curve(y_true, y_proba, label=None, threshold=None, ax=None, save_path=None):
     precision, recall, _ = precision_recall_curve(y_true, y_proba)
     pr_auc = average_precision_score(y_true, y_proba)
 
@@ -66,10 +68,13 @@ def plot_pr_curve(y_true, y_proba, label=None, threshold=None, ax=None):
     ax.grid(alpha=0.3)
     ax.legend()
 
+    if save_path is not None:
+        ax.figure.savefig(save_path, dpi=150, bbox_inches="tight")
+
     return ax
 
 
-def plot_roc_curve(y_true, y_proba, label=None, threshold=None, ax=None):
+def plot_roc_curve(y_true, y_proba, label=None, threshold=None, ax=None, save_path=None):
     fpr, recall, _ = roc_curve(y_true, y_proba)
     auc = roc_auc_score(y_true, y_proba)
 
@@ -94,6 +99,9 @@ def plot_roc_curve(y_true, y_proba, label=None, threshold=None, ax=None):
     ax.set_ylim(0, 1.02)
     ax.grid(alpha=0.3)
     ax.legend(loc="lower right")
+
+    if save_path is not None:
+        ax.figure.savefig(save_path, dpi=150, bbox_inches="tight")
 
     return ax
 
@@ -121,6 +129,9 @@ def plot_confusion_matrix(y_true, y_proba, threshold, ax=None, save_path=None):
     ax.set_xlabel("Predicted")
     ax.set_ylabel("Actual")
     ax.set_title(f"Confusion matrix (threshold = {threshold:.2f})")
+
+    if save_path is not None:
+        ax.figure.savefig(save_path, dpi=150, bbox_inches="tight")
 
     return ax
 
