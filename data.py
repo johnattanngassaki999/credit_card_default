@@ -15,7 +15,7 @@ CREDIT_COLS = [
     "PAY_AMT5", "PAY_AMT6", TARGET,
 ]
 
-CAT = ["MARRIAGE", "EDUCATION", "SEX"]
+
 
 
 def load_credit():
@@ -60,26 +60,6 @@ def split_data(df, random_state=RANDOM_STATE, test_size=0.2):
     return X_train, X_test, y_train, y_test
 
 
-def make_prep(X):
-    """Create a preprocessing transformer fitted later on training data only."""
-    categorical_columns = [col for col in CAT if col in X.columns]
-    numerical_columns = [col for col in X.columns if col not in categorical_columns]
-
-    return ColumnTransformer(
-        transformers=[
-            ("num", StandardScaler(), numerical_columns),
-            (
-                "cat",
-                OneHotEncoder(
-                    drop="first",
-                    handle_unknown="ignore",
-                    sparse_output=False,
-                ),
-                categorical_columns,
-            ),
-        ]
-    )
-
 
 def prepare_data(random_state=RANDOM_STATE):
     """Load, clean, and split the dataset; return the data and split sets."""
@@ -90,22 +70,3 @@ def prepare_data(random_state=RANDOM_STATE):
     return df, X_train, X_test, y_train, y_test
 
 
-if __name__ == "__main__":
-    df, X_train, X_test, y_train, y_test = prepare_data()
-
-    assert df.shape == (30000, 24), f"Unexpected dataset shape: {df.shape}"
-    assert not df.isna().any().any(), "The dataset contains missing values."
-    assert set(df["EDUCATION"]) == {1, 2, 3, 4}
-    assert set(df["MARRIAGE"]) == {1, 2, 3}
-    assert (len(X_train), len(X_test)) == (24000, 6000)
-    assert abs(y_train.mean() - y_test.mean()) < 0.01
-
-    print(
-        "OK",
-        df.shape,
-        "| default rate:",
-        round(df[TARGET].mean(), 3),
-        "| train/test:",
-        len(X_train),
-        len(X_test),
-    )
