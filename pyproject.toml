@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "credit-card-default"
+version = "0.1.0"
+description = "Prediction of Credit Card Default"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "imbalanced-learn",
+    "matplotlib",
+    "pyyaml",
+    "joblib",
+    "ucimlrepo",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+interpret = ["shap"]
+boosting = ["xgboost", "lightgbm"]
+all = ["pytest", "shap", "xgboost", "lightgbm"]
+
+# Commande en ligne : "credit-default train" (nécessite une fonction main() dans cli.py).
+[project.scripts]
+credit-default = "credit_default.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
