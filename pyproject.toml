@@ -20,14 +20,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "ipykernel"]
 interpret = ["shap"]
 boosting = ["xgboost", "lightgbm"]
 all = ["pytest", "shap", "xgboost", "lightgbm"]
 
 # Commande en ligne : "credit-default train" (nécessite une fonction main() dans cli.py).
 [project.scripts]
-credit-default = "credit_default.cli:main"
+credit-card-default = "credit_card_default.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

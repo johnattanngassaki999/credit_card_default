@@ -25,7 +25,15 @@ def cross_validate_model (model, X, y, n_splits: int, random_state: int) -> dict
                     "std": scores["test_roc_auc"].std()},
     }
 
-def get_oof_proba(model, X, y, n_splits: int, random_state: int):
+
+def get_scores(model, X) -> np.ndarray:
+    """Default probability if the fitted model has predict_proba, else its decision score."""
+    if hasattr(model, "predict_proba"):
+        return model.predict_proba(X)[:, 1]
+    return model.decision_function(X)
+
+
+def get_oof_scores(model, X, y, n_splits: int, random_state: int):
     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
     if hasattr(model, "predict_proba"):
         return cross_val_predict(model, X, y, cv=cv, method="predict_proba")[:,1]
@@ -51,8 +59,11 @@ def plot_pr_curve(y_true, y_proba, label=None, threshold=None, ax=None, save_pat
     if ax is None:
         _, ax = plt.subplots(figsize=(6, 5))
 
+    first_call = not ax.lines
     ax.plot(recall, precision, label=f"{label or 'model'} (PR-AUC = {pr_auc:.3f})")
-    ax.axhline(np.mean(y_true), color="gray", linestyle="--", label="baseline (default rate)")
+    if first_call:
+        ax.axhline(np.mean(y_true), color="gray", linestyle="--", label="baseline (default rate)")
+
 
     if threshold is not None:
         y_pred = (np.asarray(y_proba) >= threshold).astype(int)

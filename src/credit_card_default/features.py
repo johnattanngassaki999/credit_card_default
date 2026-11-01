@@ -1,6 +1,6 @@
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from data import CREDIT_COLS, TARGET
+from .data import CREDIT_COLS, TARGET
 
 ALL_FEATURES = [c for c in CREDIT_COLS if c != TARGET]
 BASE_CAT = ["SEX", "EDUCATION", "MARRIAGE"]

@@ -9,4 +9,6 @@ src/credit_card_default/models.py
 src/credit_card_default.egg-info/PKG-INFO
 src/credit_card_default.egg-info/SOURCES.txt
 src/credit_card_default.egg-info/dependency_links.txt
+src/credit_card_default.egg-info/entry_points.txt
+src/credit_card_default.egg-info/requires.txt
 src/credit_card_default.egg-info/top_level.txt

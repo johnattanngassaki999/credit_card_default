@@ -2,7 +2,7 @@
 # puis les valeurs sont passées en paramètres aux fonctions de data.py, models.py
 # et evaluate.py. Les modules ne lisent pas ce fichier eux-mêmes.
 
-RANDOM_SATE: 42                      # random_state utilisé partout
+random_state: 42                      # random_state utilisé partout
 
 paths:
   data_dir: data
@@ -24,25 +24,20 @@ cv:
 
 evaluation:
   default_threshold: 0.5      # seuil de départ, avant tuning
-  threshold_metric: f1        # f1 | min_recall
-  min_recall: null            # ex. 0.60 si threshold_metric = min_recall
+  threshold_metric: min_recall     # f1 | min_recall
+  min_recall: 0.60     # ex. 0.60 si threshold_metric = min_recall
   metrics: [precision, recall, f1, roc_auc, pr_auc]
 
 imbalance:
   strategy: class_weight      # class_weight | smote
 
 # Grilles d'hyperparamètres (exemples à ajuster par le responsable de models.py)
-models:
+param_grids:
   logistic_regression:
     C: [0.01, 0.1, 1, 10]
-    max_iter: 1000
-  random_forest:
-    n_estimators: [200, 400]
-    max_depth: [6, 10, null]
-    min_samples_leaf: [1, 5, 20]
-  hist_gradient_boosting:
-    learning_rate: [0.03, 0.1]
-    max_depth: [3, 6, null]
-    max_leaf_nodes: [15, 31]
-  search:
-    n_iter: 20                # RandomizedSearchCV
+  knn:
+    n_neighbors: [25, 50, 100]
+    weights: [uniform, distance]
+  linear_svm:
+    C: [0.01, 0.1, 1]
+  

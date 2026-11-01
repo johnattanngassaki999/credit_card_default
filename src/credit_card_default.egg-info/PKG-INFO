@@ -1,3 +1,30 @@
 Metadata-Version: 2.4
-Name: credit_card_default
-Version: 0.0.0
+Name: credit-card-default
+Version: 0.1.0
+Summary: Prediction of Credit Card Default
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: imbalanced-learn
+Requires-Dist: matplotlib
+Requires-Dist: pyyaml
+Requires-Dist: joblib
+Requires-Dist: ucimlrepo
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ipykernel; extra == "dev"
+Provides-Extra: interpret
+Requires-Dist: shap; extra == "interpret"
+Provides-Extra: boosting
+Requires-Dist: xgboost; extra == "boosting"
+Requires-Dist: lightgbm; extra == "boosting"
+Provides-Extra: all
+Requires-Dist: pytest; extra == "all"
+Requires-Dist: shap; extra == "all"
+Requires-Dist: xgboost; extra == "all"
+Requires-Dist: lightgbm; extra == "all"
+
+# credit_card_default
+Machine Learning and Advanced Python implementation to create, train and use a classification model to determine whether the client will default on the next month's payment. 

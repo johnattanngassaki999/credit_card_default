@@ -8,17 +8,16 @@ from sklearn.dummy import DummyClassifier
 from sklearn.svm import LinearSVC
 from sklearn.utils import class_weight
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
+from sklearn.base import clone
 from pathlib import Path
 from .evaluate import cross_validate_model
 
 
 
-def build_pipeline(preprocesser:Pipeline, model) -> Pipeline:
-    pipeline = [
-        ("prep",preprocesser),
-        ("model", model)
-    ]
-    return pipeline
+
+def build_pipeline(preprocessor:Pipeline, model) -> Pipeline:
+    return Pipeline([("prep", clone(preprocessor)), ("model", model)])
+
 
 def get_model(random_state: int) -> dict:
     models = {
@@ -31,6 +30,12 @@ def get_model(random_state: int) -> dict:
     }
     return models
 
+
+def get_param_grid(name: str, grids_config: dict) -> dict:
+    """Grid for one model, with keys prefixed by the pipeline step name."""
+    return {f"model__{param}": values for param, values in grids_config.get(name, {}).items()}
+
+
 def tune_model(pipeline: Pipeline, param_grid: dict, X_train, y_train,
                n_splits: int , random_state: int) -> tuple[Pipeline, dict]:
     """Grid search with stratified CV on the training set only, scored by PR-AUC.
@@ -42,6 +47,7 @@ def tune_model(pipeline: Pipeline, param_grid: dict, X_train, y_train,
                           cv=cv, n_jobs=-1)
     search.fit(X_train, y_train)
     return search.best_estimator_, search.best_params_
+
 
 def compare_models(pipelines: dict[str, Pipeline], X_train, y_train,
                    n_splits: int, random_state: int) -> pd.DataFrame:
