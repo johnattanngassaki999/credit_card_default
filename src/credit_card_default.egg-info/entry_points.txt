@@ -1,0 +1,2 @@
+[console_scripts]
+credit-card-default = credit_card_default.cli:main
