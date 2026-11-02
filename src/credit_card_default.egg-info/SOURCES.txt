@@ -2,6 +2,7 @@ README.md
 pyproject.toml
 src/credit_card_default/__init__.py
 src/credit_card_default/cli.py
+src/credit_card_default/config.py
 src/credit_card_default/data.py
 src/credit_card_default/evaluate.py
 src/credit_card_default/features.py
@@ -12,3 +13,7 @@ src/credit_card_default.egg-info/dependency_links.txt
 src/credit_card_default.egg-info/entry_points.txt
 src/credit_card_default.egg-info/requires.txt
 src/credit_card_default.egg-info/top_level.txt
+tests/test_cli.py
+tests/test_config.py
+tests/test_evaluate.PY
+tests/test_models.py
