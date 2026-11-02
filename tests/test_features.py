@@ -3,9 +3,9 @@ Same fake clients as in test_data.py (no internet)."""
 import numpy as np
 import pandas as pd
 import pytest
- 
-from data import CREDIT_COLS, TARGET, clean
-from features import ALL_FEATURES, ENGINEERED, add_features, make_prep
+
+from credit_card_default.data import CREDIT_COLS, TARGET, clean
+from credit_card_default.features import ALL_FEATURES, ENGINEERED, add_features, make_prep
  
  
 def fake_credit(n=800, seed=0):

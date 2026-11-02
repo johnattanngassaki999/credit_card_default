@@ -5,9 +5,9 @@ import types
 import numpy as np
 import pandas as pd
 import pytest
- 
-import data
-from data import CREDIT_COLS, TARGET, clean, split_data, load_credit
+
+from credit_card_default import data 
+from credit_card_default.data import CREDIT_COLS, TARGET, clean, split_data, load_credit
  
  
 def fake_credit(n=800, seed=0):
