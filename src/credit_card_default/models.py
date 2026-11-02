@@ -6,7 +6,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.svm import LinearSVC
-from sklearn.utils import class_weight
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.base import clone
 from pathlib import Path
